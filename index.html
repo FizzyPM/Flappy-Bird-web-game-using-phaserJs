@@ -1,20 +1,25 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>
 <html>
-    <head>  
+    <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="initial-scale=1.0" />
-        <title> Flappy Bird Clone </title>
-        <script type="text/javascript" src="phaser.min.js"></script>
-        <script type="text/javascript" src="main.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <title>Game</title>
+        <!-- <script type="text/javascipt" src="phaser.js"></script> -->
+        <script src="//cdn.jsdelivr.net/npm/phaser-ce@2.13.1/build/phaser.js"></script>
+        <style>
+            body{
+                padding: 0px;
+                margin: 0px;
+                background: black;
+            }
+            @font-face {
+            	font-family: "flappy_font";
+            	src: url("./assets/flappyfont.ttf");
+            }
+
+        </style>
     </head>
-    <style> 
-        * {
-            margin: 0;
-            padding: 0;
-        }
-    </style> 
-
     <body>
-
-    </body>  
-</html> 
+        <script src="scripts/main.js"></script>
+    </body>
+</html>
