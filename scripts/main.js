@@ -2,8 +2,6 @@ var game = new Phaser.Game(350, 500, Phaser.AUTO);
 var ground_scroll = -2.5;
 var pipe_velocity = -150;
 
-var playstate = 0;
-
 var GameState = {
     preload: function(){
         this.load.image('background', 'assets/images/background2.png');
@@ -11,6 +9,10 @@ var GameState = {
         this.load.image('ground', 'assets/images/ground2.png');
         this.load.image('pipe', 'assets/images/pipe1.png');
         this.load.image('uppipe', 'assets/images/uppipe.png');
+        game.load.audio('jump', 'assets/audio/jump.wav'); 
+        game.load.audio('bgmusic', 'assets/audio/marios_way.mp3'); 
+        game.load.audio('score', 'assets/audio/score.wav'); 
+        game.load.audio('explosion', 'assets/audio/explosion.wav'); 
     },
     create: function(){
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -42,7 +44,7 @@ var GameState = {
         // spriteGroup.add(this.pipes);
 
         this.text = this.game.add.text(10, 0, "SCORE:", {font:"30px flappy_font", fill:"#FFFFFF"});
-        this.labelscore = this.game.add.text(100, 0, "", {font:"30px flappy_font", fill:"#FFFFFF"});
+        this.labelscore = this.game.add.text(110, 0, "0", {font:"30px flappy_font", fill:"#FFFFFF"});
         // textGroup.add(this.text);
         this.score = -1;
 
@@ -50,19 +52,27 @@ var GameState = {
         this.ground.scale.setTo(1,0.5);
         // this.game.physics.arcade.enable(this.ground);
         // this.ground.body.velocity.x = -100;
+
+        this.jumpSound = game.add.audio('jump'); 
+        this.scoreSound = game.add.audio('score'); 
+        this.explosionSound = game.add.audio('explosion');
+        this.bgmusic = game.add.audio('bgmusic'); 
+        this.bgmusic.loop = true;
+        this.bgmusic.play();
+        
     },
     update: function(){
         // this.background.tilePosition.x += bg_scroll;
         this.ground.tilePosition.x += ground_scroll;
         
-        this.game.physics.arcade.overlap(this.bird, this.pipes, this.restartGame, null, this);
+        this.game.physics.arcade.overlap(this.bird, this.pipes, this.gameover, null, this);
         
         if (this.bird.y < 0 || this.bird.y > 450)
-            this.restartGame();
-
+        this.restartGame();
+        
         if (this.bird.angle < 20)
-            this.bird.angle += 1; 
-
+        this.bird.angle += 1; 
+        
     },
     resume: function(){
         game.paused = false;
@@ -70,8 +80,14 @@ var GameState = {
     jump: function(){
         this.bird.body.velocity.y = -350;
         game.add.tween(this.bird).to({angle: -20}, 100).start();  
+        this.jumpSound.play(); 
+    },
+    gameover: function(){
+        this.explosionSound.play();
+        setTimeout(this.restartGame, 1000);
     },
     restartGame: function(){
+        game.sound.stopAll();
         game.state.start('GameState');
     },
     addPipe: function(){
@@ -109,10 +125,8 @@ var GameState = {
         this.pipes.add(lopipe);
         this.pipes.add(uppipe);
 
-        lopipe.checkWorldBounds = true;
-        lopipe.outOfBoundsKill = true;
-        uppipe.checkWorldBounds = true;
-        uppipe.outOfBoundsKill = true;
+        this.pipes.checkWorldBounds = true;
+        this.pipes.outOfBoundsKill = true;
         
         // console.log('----');
         // console.log(typeof(this.pipes));
@@ -137,7 +151,10 @@ var GameState = {
         */
 
         this.score +=1;
-        this.labelscore.text = this.score;
+        if(this.score > 0){
+            this.labelscore.text = this.score;
+            this.scoreSound.play();
+        }
     },
     // incscore: function(){
     //     this.score +=1;
