@@ -10,7 +10,7 @@ var GameState = {
         this.load.image('ground', 'assets/images/ground2.png');
         this.load.image('pipe', 'assets/images/pipe1.png');
         this.load.image('uppipe', 'assets/images/uppipe.png');
-        this.load.image('button', 'assets/images/restart.png');
+        //this.load.image('button', 'assets/images/restart.png');
         game.load.audio('jump', 'assets/audio/jump.wav'); 
         game.load.audio('bgmusic', 'assets/audio/marios_way.mp3'); 
         game.load.audio('score', 'assets/audio/score.wav'); 
@@ -45,14 +45,13 @@ var GameState = {
         game.input.onDown.add(this.playGame, this);
         var spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         spaceKey.onDown.add(this.playGame, this);
-        
+             
         this.bird = this.game.add.sprite(155, 250, 'bird')
-        this.pipes = game.add.group();
-        
         this.bird.anchor.setTo(-0.2, 0.5); 
         this.game.physics.arcade.enable(this.bird);
         this.bird.body.gravity.y = 1600; 
-        
+        this.pipes = game.add.group(); 
+
         // console.log(game.cache._cache.bitmapFont)
         this.gamename = this.game.add.bitmapText(game.world.centerX, 160, 'headingfont', 'Fizzy Bird' , 60);
         this.gamename.anchor.setTo(0.5);
@@ -83,7 +82,7 @@ var GameState = {
         this.bgmusic = game.add.audio('bgmusic'); 
         this.bgmusic.loop = true;
         this.bgmusic.play();
-        this.bgmusic.volume = 0.3;
+        this.bgmusic.volume = 0.5;
         
     },
     update: function(){
@@ -100,6 +99,7 @@ var GameState = {
         
     },
     playGame: function(){
+        // console.log('1')
         this.gamename.destroy();
         this.game.paused = false;
     },
