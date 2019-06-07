@@ -11,6 +11,15 @@ var GameState = {
         this.load.image('ground', 'assets/images/ground2.png');
         game.load.audio('bgmusic', 'assets/audio/marios_way.mp3'); 
         this.game.load.bitmapFont('headingfont', 'assets/fonts/font.png', 'assets/fonts/font.fnt');
+        //
+        this.load.image('pipe', 'assets/images/pipe1.png');
+        this.load.image('uppipe', 'assets/images/uppipe.png');
+        game.load.audio('jump', 'assets/audio/jump.wav'); 
+        game.load.audio('score', 'assets/audio/score.wav'); 
+        game.load.audio('explosion', 'assets/audio/explosion.wav');
+        this.game.load.bitmapFont('scorefont', 'assets/fonts/font1.png', 'assets/fonts/font1.fnt');
+        //
+        this.game.load.bitmapFont('resultfont', 'assets/fonts/font2.png', 'assets/fonts/font2.fnt');
     },
     create: function(){
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -60,14 +69,9 @@ var GameState = {
     }
 }
 var PlayState = {
-    preload: function(){
-        this.load.image('pipe', 'assets/images/pipe1.png');
-        this.load.image('uppipe', 'assets/images/uppipe.png');
-        game.load.audio('jump', 'assets/audio/jump.wav'); 
-        game.load.audio('score', 'assets/audio/score.wav'); 
-        game.load.audio('explosion', 'assets/audio/explosion.wav');
-        this.game.load.bitmapFont('scorefont', 'assets/fonts/font1.png', 'assets/fonts/font1.fnt');
-    },
+    // preload: function(){
+        
+    // },
     create: function(){
         this.game.physics.arcade.enable(bird);
         bird.body.gravity.y = 1600; 
@@ -172,9 +176,9 @@ var PlayState = {
     }
 }
 var GameOver = {
-    preload: function(){
-        this.game.load.bitmapFont('resultfont', 'assets/fonts/font2.png', 'assets/fonts/font2.fnt');
-    },
+    // preload: function(){
+        
+    // },
     create: function(){
         this.result = this.game.add.bitmapText(game.world.centerX, 160, 'resultfont', "SCORE:"+String(score) , 70);
         this.result.anchor.setTo(0.5);
